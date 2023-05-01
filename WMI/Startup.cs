@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using WMI.Controllers;
 
 namespace WMI
 {
@@ -38,8 +31,8 @@ namespace WMI
                 options.Providers.Add<GzipCompressionProvider>();
                 options.EnableForHttps = true;
             }); //Note: add this especially for production w/ability to search by country or keywords and caching for 5 mins?
-            
-            services.AddSingleton<IWmiService>(new WmiService(_data));
+
+            services.AddSingleton<IWMIService>(new WMIService(_data));
             services.AddControllers();
 
             // Configure CORS policy to allow requests from the frontend

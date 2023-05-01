@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,39 +10,28 @@ namespace WMI.Controllers
     {
 
         private readonly ILogger<WMIController> _logger;
-        private readonly IWmiService _wmiService;
+        private readonly IWMIService _WMIService;
 
-        public WMIController(ILogger<WMIController> logger, IWmiService wmiService)
+        public WMIController(ILogger<WMIController> logger, IWMIService WMIService)
         {
             _logger = logger;
-            _wmiService = wmiService;
+            _WMIService = WMIService;
         }
 
         [HttpGet]
         public IEnumerable<WMIDTO> GetWmis()
         {
-            return _wmiService.GetWmis();
-        }
-        //if more time add try catch and break into smaller files interface, service etc
-    }
-
-    public interface IWmiService
-    {
-        IEnumerable<WMIDTO> GetWmis();
-    }
-
-    public class WmiService : IWmiService
-    {
-        private readonly List<WMIDTO> _wmis;
-        public WmiService(List<WMIDTO> wmis)
-        {
-            _wmis = wmis;
-        }
-
-        public IEnumerable<WMIDTO> GetWmis()
-        {
-            return _wmis;
+            var retVal = new List<WMIDTO>();
+            try
+            {
+                _logger.LogInformation("GetWmis() called");
+                return _WMIService.GetWmis();
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "GetWmis() failed");
+                return retVal;
+            }
         }
     }
 }
-
