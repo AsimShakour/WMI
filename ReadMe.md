@@ -9,7 +9,9 @@ Open [https://localhost:5001/wmi](https://localhost:5001/wmi) to view it in the 
 
 
 ## Backend for WMI-React-App 
-
+Open [https://github.com/AsimShakour/WMI-React-App](https://github.com/AsimShakour/WMI-React-App) to view front-end
+    ### `npm start`
+Open [http://localhost:3001/](http://localhost:3001/) to view it in the browser (unless other sites running)
 
 ## Info
 
