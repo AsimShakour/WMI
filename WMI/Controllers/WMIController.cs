@@ -11,51 +11,45 @@ namespace WMI.Controllers
     [Route("[controller]")]
     public class WMIController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
         private readonly ILogger<WMIController> _logger;
+        private readonly IWmiService _wmiService;
 
-        public WMIController(ILogger<WMIController> logger)
+        public WMIController(ILogger<WMIController> logger, IWmiService wmiService)
         {
             _logger = logger;
+            _wmiService = wmiService;
         }
 
         [HttpGet]
-        public IEnumerable<WMIDTOOld> Get()
+        public IEnumerable<WMIDTO> GetWmis()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WMIDTOOld
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return _wmiService.GetWmis();
         }
 
-        [HttpGet, Route("getUserById/{id}")]
-        public async Task<IActionResult> GetUserByID(int id)
+        //public Task<ActionResult<IEnumerable<WMIDTO>>> GetWmis()
+        //{
+        //    var wmis = _wmiService.GetWmis();
+        //    return Ok(wmis); 
+        //}
+    }
+
+    public interface IWmiService
+    {
+        IEnumerable<WMIDTO> GetWmis();
+    }
+
+    public class WmiService : IWmiService
+    {
+        private readonly List<WMIDTO> _wmis;
+        public WmiService(List<WMIDTO> wmis)
         {
-            var data = "something" + id;
-            return Ok(new
-            {
-                thisIsAnonymous = true,
-                user = data
-            });
+            _wmis = wmis;
         }
 
-        [HttpGet, Route("getUserByIdv2/{id}")]
-        public async Task<IActionResult> GetUserByIDv2(int id)
+        public IEnumerable<WMIDTO> GetWmis()
         {
-            var person = new { Age = 10+id, Name = "John", Address = "Miami", id };
-            return Ok(new
-            {
-                thisIsAnonymous = true,
-                user = person
-            });
+            return _wmis;
         }
     }
 }
