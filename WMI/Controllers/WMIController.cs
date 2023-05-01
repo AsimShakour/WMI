@@ -26,12 +26,7 @@ namespace WMI.Controllers
         {
             return _wmiService.GetWmis();
         }
-
-        //public Task<ActionResult<IEnumerable<WMIDTO>>> GetWmis()
-        //{
-        //    var wmis = _wmiService.GetWmis();
-        //    return Ok(wmis); 
-        //}
+        //if more time add try catch and break into smaller files interface, service etc
     }
 
     public interface IWmiService
